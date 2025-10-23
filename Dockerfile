@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -21,4 +21,8 @@ RUN php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear
 
-CMD ["php-fpm"]
+# Expose port 10000
+EXPOSE 10000
+
+# Start Laravel built-in server (Render requires listening on a port)
+CMD php artisan serve --host=0.0.0.0 --port=10000
